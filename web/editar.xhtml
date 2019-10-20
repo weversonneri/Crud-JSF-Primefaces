@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <ui:composition template="./modelo.xhtml">
+            <ui:define name="content">
+                <h:form id="form">  
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:dataTable value="#{bean.listaJG}" var="jg" editable="true"
+                                 emptyMessage="Nenhum dado cadastrado"
+                                 rows="10" paginator="true" paginatorPosition="bottom">
+
+                        <p:ajax event="rowEdit" listener="#{bean.onRowEdit}" update=":form:msgs" />
+                        <p:ajax event="rowEditCancel" listener="#{bean.onRowCancel}"  update=":form:msgs" />
+
+                        <p:column headerText="id">
+                            <h:outputText value="#{jg.id}"/>
+                        </p:column>
+
+                        <p:column headerText="Título">
+                            <p:cellEditor>
+                                <f:facet name="input"><h:inputText value="#{jg.titulo}"/></f:facet>
+                                <f:facet name="output"><h:outputText value="#{jg.titulo}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Gênero">
+                            <p:cellEditor>
+                                <f:facet name="input"><h:inputText value="#{jg.genero}"/></f:facet>
+                                <f:facet name="output"><h:outputText value="#{jg.genero}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Plataforma">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{jg.plataforma}"/></f:facet>
+                                <f:facet name="input" >
+                                    <h:selectOneMenu id="console" value="#{jg.plataforma}" style="width:126px" required="true" requiredMessage="Campo obrigatório">
+                                        <f:selectItem itemLabel="" itemValue="" />
+                                        <f:selectItem itemLabel="Xbox One" itemValue="Xbox One" />
+                                        <f:selectItem itemLabel="PS4" itemValue="PS4" />
+                                        <f:selectItem itemLabel="Wii U" itemValue="Wii U" />
+                                    </h:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Desenvolvedor">
+                            <p:cellEditor>
+                                <f:facet name="input"><h:inputText value="#{jg.desenvolvedor}"/></f:facet>
+                                <f:facet name="output"><h:outputText value="#{jg.desenvolvedor}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Distribuidora">
+                            <p:cellEditor>
+                                <f:facet name="input"><h:inputText value="#{jg.distribuidora}"/></f:facet>
+                                <f:facet name="output"><h:outputText value="#{jg.distribuidora}"/></f:facet>                        
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Lancamento">
+                            <p:cellEditor>
+                                <f:facet name="input"><p:inputMask mask="99/99/9999" value="#{jg.lancamento}"/></f:facet>
+                                <f:facet name="output"><h:outputText value="#{jg.lancamento}"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Editar">
+                            <p:rowEditor/>
+                        </p:column>
+
+                        <p:column headerText="Excluir">
+                            <p:commandButton value="Deletar" action="#{bean.deletar(jg)}" update=":form" icon="ui-icon-trash"/>
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
